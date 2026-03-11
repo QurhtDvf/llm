@@ -169,13 +169,9 @@ jupyter notebook tfidf_features.ipynb
 
 ---
 
-## 関連ノートブック
 
-日本語テキストのベクトル化手法をより広く比較したい場合は、こちらもご覧ください。
 
-- [`japanese_vectorization_comparison.ipynb`](./japanese_vectorization_comparison.ipynb) — 従来手法（MeCab + TF-IDF）とBERTベース手法の比較
 
----
 
 ## ライセンス
 
