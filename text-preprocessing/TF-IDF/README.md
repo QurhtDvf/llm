@@ -53,6 +53,10 @@ TF-IDF("好き") = 0.29 × 0.7  = 0.20
 TF-IDF("です") = 0.14 × 0.01 = 0.001 ← ほぼ0
 ```
 
+### TF-IDFマトリクスの可視化
+
+![TF-IDFマトリクス](https://raw.githubusercontent.com/QurhtDvf/llm/main/text-preprocessing/TF-IDF/download-3.png)
+
 ---
 
 ## トークン化とは
@@ -169,9 +173,13 @@ jupyter notebook tfidf_features.ipynb
 
 ---
 
+## 関連ノートブック
 
+日本語テキストのベクトル化手法をより広く比較したい場合は、こちらもご覧ください。
 
+- [`japanese_vectorization_comparison.ipynb`](./japanese_vectorization_comparison.ipynb) — 従来手法（MeCab + TF-IDF）とBERTベース手法の比較
 
+---
 
 ## ライセンス
 
