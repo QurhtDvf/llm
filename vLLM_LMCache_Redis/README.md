@@ -392,7 +392,7 @@ export LMCACHE_REMOTE_URL=redis://localhost:6379
 export LMCACHE_REMOTE_SERDE=naive
 
 # 5. Jupyter で実行
-jupyter notebook vllm_lmcache_redis_demo_final.ipynb
+jupyter notebook vllm_lmcache_redis_demo.ipynb
 ```
 
 ---
