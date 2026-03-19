@@ -1,0 +1,82 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 283823f..b7bfcdd 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -21,6 +21,8 @@ add_library(llama
+             llama-impl.cpp
+             llama-io.cpp
+             llama-kv-cache.cpp
++    llama-kv-chunk-api.cpp
++    llmcache-wrapper.cpp
+             llama-kv-cache-iswa.cpp
+             llama-memory.cpp
+             llama-memory-hybrid.cpp
+diff --git a/src/llama-kv-cache.cpp b/src/llama-kv-cache.cpp
+index 01166fa..ff3ac9b 100644
+--- a/src/llama-kv-cache.cpp
++++ b/src/llama-kv-cache.cpp
+@@ -2283,3 +2283,43 @@ void llama_kv_cache_context::set_input_kq_mask(ggml_tensor * dst, const llama_ub
+ void llama_kv_cache_context::set_input_pos_bucket(ggml_tensor * dst, const llama_ubatch * ubatch) const {
+     kv->set_input_pos_bucket(dst, ubatch);
+ }
++
++// === LMCache-compatible chunk API (fork addition) ===
++
++void llama_kv_cache::state_write_chunk(
++        llama_io_write_i & io,
++        uint32_t token_start,
++        uint32_t token_count) const {
++    GGML_ASSERT(token_start + token_count <= v_cells[0].size());
++    cell_ranges_t cr { 0, {{ token_start, token_start + token_count }} };
++    state_write_meta(io, cr);
++    state_write_data(io, cr);
++}
++
++bool llama_kv_cache::state_read_chunk(
++        llama_io_read_i & io,
++        uint32_t token_start,
++        uint32_t token_count) {
++    GGML_ASSERT(token_start + token_count <= v_cells[0].size());
++    slot_info sinfo;
++    sinfo.s0 = 0; sinfo.s1 = 0;
++    sinfo.resize(1);
++    sinfo.strm[0] = 0;
++    sinfo.idxs[0].resize(token_count);
++    for (uint32_t i = 0; i < token_count; ++i)
++        sinfo.idxs[0][i] = token_start + i;
++    return state_read_meta(io, 0, token_count, sinfo)
++        && state_read_data(io, 0, token_count, sinfo);
++}
++
++size_t llama_kv_cache::get_chunk_size_bytes(uint32_t token_count) const {
++    size_t total = token_count * 12 + 8;
++    for (const auto & layer : layers) {
++        total += 12 + ggml_row_size(layer.k->type,
++                     hparams.n_embd_k_gqa(layer.il)) * token_count;
++        total += 12 + ggml_row_size(layer.v->type,
++                     hparams.n_embd_v_gqa(layer.il)) * token_count;
++    }
++    return total;
++}
++// === end fork addition ===
+diff --git a/src/llama-kv-cache.h b/src/llama-kv-cache.h
+index 33c78c5..6b6ddd6 100644
+--- a/src/llama-kv-cache.h
++++ b/src/llama-kv-cache.h
+@@ -140,6 +140,16 @@ public:
+ 
+     // state write/load
+ 
++    
++    // === LMCache-compatible chunk API (fork addition) ===
++    void state_write_chunk(llama_io_write_i & io,
++                           uint32_t token_start,
++                           uint32_t token_count) const;
++    bool state_read_chunk(llama_io_read_i & io,
++                          uint32_t token_start,
++                          uint32_t token_count);
++    size_t get_chunk_size_bytes(uint32_t token_count) const;
++    // === end fork addition ===
+     void state_write(llama_io_write_i & io, llama_seq_id seq_id = -1, llama_state_seq_flags flags = 0) const override;
+     void state_read (llama_io_read_i  & io, llama_seq_id seq_id = -1, llama_state_seq_flags flags = 0) override;
+ 
