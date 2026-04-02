@@ -91,6 +91,7 @@
 
 $$P(y \mid x; \theta) = \prod_{t=1}^{T} P(y_t \mid x, y_{<t}; \theta)$$
 
+
 ここで $\theta$ はモデルの全パラメータです。ハードプロンプト（通常のテキストプロンプト）$p$ を前置した場合：
 
 $$P(y \mid p, x; \theta)$$
