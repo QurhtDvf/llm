@@ -117,9 +117,9 @@ $$\tilde{X} = \text{concat}(P_\theta, X_e) \in \mathbb{R}^{(k+n) \times d}$$
 
 モデルへの入力は $\tilde{X}$ となり、出力確率は：
 
-$$P(y \mid \tilde{X}; \theta_{\text{frozen}}) = \prod_{t=1}^{T} P(y_t \mid \tilde{X}, y_{<t}; \theta_{\text{frozen}})$$
+$$P(y \mid \tilde{X}; \theta_{\text{frozen}}) = \prod_{t=1}^{T} P(y_t \mid \tilde{X}, y_{\lt t}; \theta_{\text{frozen}})$$
 
-学習は $P_\theta$ のみを更新し、$\theta_{\text{frozen}}$ は固定です：
+学習は $P_\theta$ のみを更新し、 $\theta_{\text{frozen}}$ は固定です：
 
 $$P_\theta^* = \arg\min_{P_\theta} \mathcal{L}(P_\theta; \theta_{\text{frozen}})$$
 
@@ -129,7 +129,7 @@ $$P_\theta^* = \arg\min_{P_\theta} \mathcal{L}(P_\theta; \theta_{\text{frozen}})
 
 損失関数は通常の言語モデリング損失（負の対数尤度）を使用します：
 
-$$\mathcal{L} = -\frac{1}{T} \sum_{t=1}^{T} \log P(y_t \mid \tilde{X}, y_{<t}; \theta_{\text{frozen}})$$
+$$\mathcal{L} = -\frac{1}{T} \sum_{t=1}^{T} \log P(y_t \mid \tilde{X}, y_{\lt t}; \theta_{\text{frozen}})$$
 
 勾配は $P_\theta$ に対してのみ計算されます：
 
