@@ -206,7 +206,7 @@ Prefix Tuning と同様に全層にソフトプロンプトを付加しつつ、
 
 $$W' = W + \Delta W = W + BA$$
 
-ここで $B \in \mathbb{R}^{d \times r}$, $A \in \mathbb{R}^{r \times d}$（$r \ll d$）。プロンプト学習と異なりモデルの内部重みを（間接的に）変更しますが、学習パラメータは大幅に削減されます。
+ここで $B \in \mathbb{R}^{d \times r}$, $A \in \mathbb{R}^{r \times d}$（ $r \ll d$ ）。プロンプト学習と異なりモデルの内部重みを（間接的に）変更しますが、学習パラメータは大幅に削減されます。
 
 ### 各手法のまとめ
 
