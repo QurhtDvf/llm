@@ -89,7 +89,7 @@
 
 通常の言語モデルは、入力トークン列 $x = [x_1, x_2, \ldots, x_n]$ に対して、次のトークンの確率を計算します。
 
-$$P(y \mid x; \theta) = \prod_{t=1}^{T} P(y_t \mid x, y_{<t}; \theta)$$
+$$P(y \mid x; \theta) = \prod_{t=1}^{T} P(y_t \mid x, y_{\lt t}; \theta)$$
 
 
 ここで $\theta$ はモデルの全パラメータです。ハードプロンプト（通常のテキストプロンプト）$p$ を前置した場合：
