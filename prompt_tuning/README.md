@@ -143,7 +143,7 @@ $$\text{ファインチューニング}: |\theta| \approx 117 \times 10^6 \quad 
 
 $$\text{プロンプト学習}: |P_\theta| = k \times d = 10 \times 768 = 7{,}680$$
 
-削減率：$\dfrac{7{,}680}{117 \times 10^6} \approx 0.0066\%$
+削減率： $\dfrac{7{,}680}{117 \times 10^6} \approx 0.0066\%$
 
 ---
 
