@@ -224,7 +224,7 @@ LoRA:                  ❌       ❌      ✅（低ランク近似）
 ## 📁 ノートブック構成
 
 ```
-prompt_tuning_colab.ipynb
+prompt_tuning.ipynb
 ├── ① ライブラリのインストール
 │     peft / transformers / datasets / sentencepiece / accelerate
 ├── ② GPU確認
